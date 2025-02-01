@@ -1,0 +1,8 @@
+version: '3.4.1'
+services: 
+  db: 
+    image: 
+    container_name: 
+    command:
+    environment:
+    ports:
