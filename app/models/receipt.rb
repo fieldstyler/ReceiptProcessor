@@ -22,7 +22,7 @@ class Receipt < ApplicationRecord
     end 
 
     def calc_retailer_length(retailer)
-        # couldn't find a working regex
+        # couldn't find a working alphanumeric regex
         chars_array = ('a'..'z').to_a + ('A'..'Z').to_a + ('0'..'9').to_a
         chars = []
         retailer.chars.each do |char|
