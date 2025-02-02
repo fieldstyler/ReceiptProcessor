@@ -82,6 +82,27 @@ RSpec.describe "Receipts API", type: 'request' do
                     ],
                     "total": "35.35"
                   }
+                  @receipt_params2 = {
+                    "retailer": "M&M Corner Market",
+                    "purchaseDate": "2022-03-20",
+                    "purchaseTime": "14:33",
+                    "items": [
+                      {
+                        "shortDescription": "Gatorade",
+                        "price": "2.25"
+                      },{
+                        "shortDescription": "Gatorade",
+                        "price": "2.25"
+                      },{
+                        "shortDescription": "Gatorade",
+                        "price": "2.25"
+                      },{
+                        "shortDescription": "Gatorade",
+                        "price": "2.25"
+                      }
+                    ],
+                    "total": "9.00"
+                  }
                 @headers = {"CONTENT_TYPE" => "application/json"}
             end
 
@@ -99,6 +120,13 @@ RSpec.describe "Receipts API", type: 'request' do
                 res = JSON.parse(response.body)
                 expect(res).to be_a(Hash)
                 expect(res).to eq({ "points" => 28 })
+
+                post '/receipts/process', headers: @headers, params: JSON.generate(receipt: @receipt_params2)
+                receipt = Receipt.last
+                get "/receipts/#{receipt.id}/process"
+                res = JSON.parse(response.body)
+                expect(res).to be_a(Hash)
+                expect(res).to eq({ "points" => 109 })
             end
         end 
     end 
