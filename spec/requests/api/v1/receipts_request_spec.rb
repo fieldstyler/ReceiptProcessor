@@ -40,16 +40,23 @@ RSpec.describe "Receipts API", type: 'request' do
             end 
         end 
     end 
-
+    
     describe "GET /receipts/:id/process" do 
         describe "sends a request and returns a 'total' numeric value" do 
-
+            
             it "returns a valid response" do 
-
+                post '/receipts/process', headers: @headers, params: JSON.generate(receipt: @receipt_params)
+                receipt = Receipt.last
+                get "/receipts/#{receipt.id}/process", headers: @headers, params: JSON.generate(receipt: @receipt_params)
+                expect(response).to be_successful
             end
-
+            
             it "returns a total" do
-
+                post '/receipts/process', headers: @headers, params: JSON.generate(receipt: @receipt_params)
+                receipt = Receipt.last
+                res = JSON.parse(response.body)
+                expect(res).to be_a(Hash)
+                expect(res).to eq({ "points" => "#{receipt.points}"})
             end
         end 
     end 
