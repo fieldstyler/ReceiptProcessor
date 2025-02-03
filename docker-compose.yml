@@ -1,8 +1,7 @@
-version: '3.4.1'
 services: 
-  db: 
-    image: 
-    container_name: 
-    command:
+  app:
+    build: .
     environment:
+      - RAILS_MASTER_KEY
     ports:
+      - "3000:80"
